@@ -1,13 +1,23 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
+#include <iostream>
+#include "Menu.h"
 using namespace sf;
 
-int N = 30, M = 20;
-int size = 16;
-int w = size * N;
-int h = size * M;
 
-int dir, num = 4;
+int N = 30, M = 20;
+float size = 16;
+float width = size * N;
+float height = size* M;
+//enum
+enum Direction
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
 
 struct Snake
 {
@@ -18,6 +28,14 @@ struct Fruit
 {
     int x, y;
 } f;
+
+//Local var
+
+
+
+int dir, num = 4;
+Direction IDirection = RIGHT;
+//Func
 
 void Tick()
 {
@@ -43,11 +61,70 @@ void Tick()
         if (s[0].x == s[i].x && s[0].y == s[i].y)  num = i;
 }
 
+void Run()
+{
+    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML WORK!");
+
+    Menu menu(window.getSize().x, window.getSize().y);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+
+        while (window.pollEvent(event))
+        {
+            switch (event.type)
+            {
+            case sf::Event::KeyReleased:
+                switch (event.key.code)
+                {
+                case sf::Keyboard::Up:
+                    menu.MoveUp();
+                    break;
+
+                case sf::Keyboard::Down:
+                    menu.MoveDown();
+                    break;
+
+                case sf::Keyboard::Return:
+                    switch (menu.GetPressedItem())
+                    {
+                    case 0:
+                        std::cout << "Play button has been pressed" << std::endl;
+                        break;
+                    case 1:
+                        std::cout << "Option button has been pressed" << std::endl;
+                        break;
+                    case 2:
+                        window.close();
+                        break;
+                    }
+
+                    break;
+                }
+
+                break;
+            case sf::Event::Closed:
+                window.close();
+
+                break;
+
+            }
+        }
+
+        window.clear();
+
+        menu.draw(window);
+
+        window.display();
+    }
+}
+
 int main()
 {
     srand(time(0));
-
-    RenderWindow window(VideoMode(w, h), "Snake Game!");
+    Run();
+    RenderWindow window(VideoMode(width, height), "Snake Game!");
 
     Texture t1, t2;
     t1.loadFromFile("images/white.png");
