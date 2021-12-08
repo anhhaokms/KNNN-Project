@@ -103,9 +103,15 @@ void Run()
                         PlayGame();
                         break;
                     case 1:
-                        std::cout << "Option button has been pressed" << std::endl;
+                        std::cout << "High button has been pressed" << std::endl;
                         break;
                     case 2:
+                        std::cout << "Guide button has been pressed" << std::endl;
+                        break;
+                    case 3:
+                        std::cout << "Info button has been pressed" << std::endl;
+                        break;
+                    case 4:
                         window.close();
                         break;
                     }
