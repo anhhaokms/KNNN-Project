@@ -7,8 +7,10 @@ using namespace sf;
 
 int N = 30, M = 20;
 float size = 16;
-float width = size * N;
-float height = size* M;
+
+float width = (size * N);
+float height = (size * M);
+
 
 
 struct Snake
@@ -131,7 +133,11 @@ void Run()
 void PlayGame()
 {
     srand(time(0));
-    RenderWindow window(VideoMode(width, height), "Snake Game!");
+
+
+    Run();
+    RenderWindow window(VideoMode(496, 336), "Snake Game!");
+
 
     Texture t1, t2;
     t1.loadFromFile("images/white.png");
@@ -175,8 +181,8 @@ void PlayGame()
         ////// draw  ///////
         window.clear();
 
-        for (int i = 0; i < N; i++)
-            for (int j = 0; j < M; j++)
+        for (int i = 0; i < N+1; i++)
+            for (int j = 0; j < M+1; j++)
             {
                 sprite1.setPosition(i * size, j * size);  window.draw(sprite1);
             }
