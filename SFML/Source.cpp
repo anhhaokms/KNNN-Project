@@ -135,7 +135,6 @@ void PlayGame()
     srand(time(0));
 
 
-    Run();
     RenderWindow window(VideoMode(496, 336), "Snake Game!");
 
 
