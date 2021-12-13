@@ -31,8 +31,8 @@ int dir, num = 4;
 //Func
 void Move(bool&);
 void Run();
-void PlayGame();
-void GameOver();
+void PlayGame(RenderWindow&);
+void GameOver(RenderWindow&);
 
 
 
@@ -100,7 +100,7 @@ void Run()
                     switch (menu.GetPressedItem())
                     {
                     case 0:
-                        PlayGame();
+                        PlayGame(window);
                         break;
                     case 1:
                         std::cout << "High button has been pressed" << std::endl;
@@ -136,12 +136,11 @@ void Run()
     }
 }
 
-void PlayGame()
+void PlayGame(RenderWindow &window)
 {
     srand(time(0));
 
 
-    RenderWindow window(VideoMode(496, 336), "Snake Game!");
 
 
     Texture t1, t2;
@@ -179,8 +178,8 @@ void PlayGame()
 
         if (endGame == true)
         {
-            window.close();
-            GameOver();
+            GameOver(window);
+            return;
         }
 
         ////// draw  ///////
@@ -203,9 +202,8 @@ void PlayGame()
     }
 }
 
-void GameOver()
+void GameOver(RenderWindow& window)
 {
-    RenderWindow window(VideoMode(width, height), "Game over!");
     Text GameOver;
     Font Font;
     Font.loadFromFile("arial.ttf");
@@ -221,7 +219,7 @@ void GameOver()
                 switch (event.key.code)
                 {
                 case sf::Keyboard::Return:
-                    window.close();
+                    return;
                 }
 
                 break;
@@ -232,6 +230,7 @@ void GameOver()
 
             }
         }
+        window.clear();
 
         GameOver.setFont(Font);
         GameOver.setFillColor(sf::Color::Red);
@@ -239,7 +238,7 @@ void GameOver()
         GameOver.setPosition(sf::Vector2f(width / 2 - width * 2/15, height / (2 + 1) * 1));
 
         HighScore.setFont(Font);
-        HighScore.setFillColor(sf::Color::White);
+        HighScore.setFillColor(sf::Color::Red);
         HighScore.setString("High Score:");
         HighScore.setPosition(sf::Vector2f(width / 2 - width * 2 / 15, height / (2 + 1) * 2));
 
