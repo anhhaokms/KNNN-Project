@@ -36,8 +36,5 @@
     <None Include="TextGame.dll">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="hightScore.in">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

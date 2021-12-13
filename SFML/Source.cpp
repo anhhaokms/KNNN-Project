@@ -5,15 +5,17 @@
 #include <fstream>
 #include <Windows.h>
 #include <conio.h>
+#include <vector>
+#include <fstream>
 
 using namespace sf;
 
 
 int N = 30, M = 20;
-float size = 16;
+float sizez = 16;
 
-float width = (size * N) + 160;
-float height = (size * M) + +16;
+float width = (sizez * N) + 160;
+float height = (sizez * M) + +16;
 
 
 
@@ -42,7 +44,7 @@ void Info(RenderWindow&);
 int HardCore(RenderWindow&);
 
 bool Classic(RenderWindow&);
-
+void hightScore(RenderWindow&);
 
 
 int main()
@@ -74,7 +76,7 @@ void Move(bool& endGame, bool& isEat, bool classic)
 	if (snake[0].x > N)
 	{
 		if (classic == true)
-			snake[0].x = N;
+			snake[0].x = 0;
 		else
 		{
 			endGame = true;
@@ -126,7 +128,8 @@ void Run()
 	while (window.isOpen())
 	{
 		sf::Event event;
-
+		int hardCore;
+		bool classic;
 		while (window.pollEvent(event))
 		{
 			switch (event.type)
@@ -146,10 +149,13 @@ void Run()
 					switch (menu.GetPressedItem())
 					{
 					case 0:
-						PlayGame(window, HardCore(window), Classic(window));
+						classic = Classic(window);
+						hardCore = HardCore(window);
+						
+						PlayGame(window, hardCore , classic);
 						break;
 					case 1:
-						std::cout << "High button has been pressed" << std::endl;
+						hightScore(window);
 						break;
 					case 2:
 						Guide(window);
@@ -204,8 +210,6 @@ bool Classic(RenderWindow& window)
 	wall.setFillColor(sf::Color::White);
 	while (window.isOpen())
 	{
-
-		
 		Event event;
 		while (window.pollEvent(event))
 		{
@@ -242,6 +246,7 @@ bool Classic(RenderWindow& window)
 					break;
 				case sf::Keyboard::Return:
 					return cMode;
+					break;
 				}
 				break;
 			case sf::Event::Closed:
@@ -388,15 +393,15 @@ void PlayGame(RenderWindow& window, int hardCore, bool classic)
 		for (int i = 0; i < N + 1; i++)
 			for (int j = 0; j < M + 1; j++)
 			{
-				sprite1.setPosition(i * size, j * size);  window.draw(sprite1);
+				sprite1.setPosition(i * sizez, j * sizez);  window.draw(sprite1);
 			}
 
 		for (int i = 0; i < num; i++)
 		{
-			sprite2.setPosition(snake[i].x * size, snake[i].y * size);  window.draw(sprite2);
+			sprite2.setPosition(snake[i].x * sizez, snake[i].y * sizez);  window.draw(sprite2);
 		}
 
-		sprite2.setPosition(f.x * size, f.y * size);  window.draw(sprite2);
+		sprite2.setPosition(f.x * sizez, f.y * sizez);  window.draw(sprite2);
 		HighScore.setFont(Font);
 		HighScore.setFillColor(sf::Color::White);
 		std::string textPoint = "High Score\n" + std::to_string(point);
@@ -426,6 +431,7 @@ void GameOver(RenderWindow& window, int point)
 				{
 				case sf::Keyboard::Return:
 					return;
+					break;
 				case sf::Keyboard::Escape:
 					return;
 					break;
@@ -551,6 +557,76 @@ void Info(RenderWindow& window)
 		GameInfo.setString(text);
 		GameInfo.setPosition(sf::Vector2f(width / 2 - width / 3, 20));
 		window.draw(GameInfo);
+		window.display();
+	}
+}
+
+void hightScore(RenderWindow& window)
+{
+	std::string name; int score;
+
+	std::ifstream FileIn("hightScore.in", std::ios::in);
+	Text highScore;
+	Font Font;
+	Text nameText;
+	Font.loadFromFile("arial.ttf");
+	highScore.setFont(Font);
+	highScore.setCharacterSize(40);
+	highScore.setFillColor(sf::Color::Green);
+	highScore.setString("HIGHT SCORE");
+	highScore.setPosition(sf::Vector2f(width / 2 - width / 5, 20));
+
+	if (FileIn.fail())
+	{
+		name = "EMPTY";
+	}
+	else
+	{
+		int x = 0;
+		int i = 17;
+		std::string nametmp;
+		while (x < 5)
+		{
+			FileIn >> nametmp >> score;
+			name += "\t" + nametmp + ": " + std::to_string(score) + "\n";
+			x++;
+		}
+	}
+
+	nameText.setFont(Font);
+	nameText.setCharacterSize(40);
+	nameText.setFillColor(sf::Color::Green);
+	nameText.setString(name);
+	nameText.setPosition(sf::Vector2f(width / 2 - width / 5, 60));
+	while (window.isOpen())
+	{
+		Event event;
+		while (window.pollEvent(event))
+		{
+			switch (event.type)
+			{
+			case sf::Event::KeyReleased:
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Return:
+					return;
+				case sf::Keyboard::Escape:
+					return;
+					break;
+				}
+				break;
+			case sf::Event::Closed:
+				window.close();
+
+				break;
+
+			}
+		}
+		window.clear();
+
+
+		window.draw(highScore);
+		window.draw(nameText);
 		window.display();
 	}
 }

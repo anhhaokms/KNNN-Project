@@ -152,7 +152,6 @@
     <Font Include="arial.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="hightScore.in" />
     <None Include="TextGame.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
