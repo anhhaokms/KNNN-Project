@@ -404,7 +404,7 @@ void PlayGame(RenderWindow& window, int hardCore, bool classic)
 		sprite2.setPosition(f.x * sizez, f.y * sizez);  window.draw(sprite2);
 		HighScore.setFont(Font);
 		HighScore.setFillColor(sf::Color::White);
-		std::string textPoint = "High Score\n" + std::to_string(point);
+		std::string textPoint = "Score\n" + std::to_string(point) + "\n\n\n" + "Space:Pause\n" + "Esc:ToMenu";
 		HighScore.setString(textPoint);
 		HighScore.setCharacterSize(20);
 		HighScore.setPosition(sf::Vector2f(width - 130, 50));
